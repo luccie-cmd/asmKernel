@@ -139,8 +139,8 @@ def getExtension(file):
 
 def buildC(file):
     compiler = CONFIG.get("compiler")[0]
-    if compiler == "gcc":
-        compiler += "-11"
+    # if compiler == "gcc":
+        # compiler += ""
     options = CONFIG["CFLAGS"].copy()
     options.append("-std=c11")
     command = compiler + " " + file
@@ -153,7 +153,7 @@ def buildC(file):
 def buildCXX(file):
     compiler = CONFIG.get("compiler")[0]
     if compiler == "gcc":
-        compiler = "g++-11"
+        compiler = "g++"
     options = CONFIG["CFLAGS"].copy()
     options += CONFIG["CXXFLAGS"].copy()
     options.append("-std=c++23")
@@ -202,7 +202,7 @@ def buildKernel(kernel_dir: str):
         str_paths = ""
         for incPath in CONFIG["INCPATHS"]:
             str_paths += f" {incPath}"
-        code, _ = callCmd(f"cpp-11 {str_paths} -D_GLIBCXX_HOSTED=1 {file} -o ./tmp.txt", True)
+        code, _ = callCmd(f"cpp {str_paths} -D_GLIBCXX_HOSTED=1 {file} -o ./tmp.txt", True)
         if code != 0:
             print(f"CPP failed to pre process {file}")
             exit(code)
@@ -234,7 +234,7 @@ def buildKernel(kernel_dir: str):
 
 def linkDir(kernel_dir, linker_file, static_lib_files=[]):
     files = glob.glob(kernel_dir+'/**', recursive=True)
-    command = "g++-11"
+    command = "g++"
     options = CONFIG["LDFLAGS"]
     for option in options:
         command += " " + option
@@ -328,7 +328,7 @@ def buildStaticLib(directory, out_file):
         str_paths = ""
         for incPath in CONFIG["INCPATHS"]:
             str_paths += f" {incPath}"
-        code, _ = callCmd(f"cpp-11 {str_paths} -D_GLIBCXX_HOSTED=1 {file} -o ./tmp.txt", True)
+        code, _ = callCmd(f"cpp {str_paths} -D_GLIBCXX_HOSTED=1 {file} -o ./tmp.txt", True)
         if code != 0:
             print(f"CPP failed to pre process {file}")
             exit(code)
