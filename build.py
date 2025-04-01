@@ -424,8 +424,8 @@ def main():
         print("> Getting info")
         getInfo()
         buildImage(f"{CONFIG['outDir'][0]}/image.img", f"{CONFIG['outDir'][0]}/BOOTX64.EFI", f"{CONFIG['outDir'][0]}/kernel.elf")
-    currentUser = os.getlogin()
-    callCmd(f"chown -R {currentUser}:{currentUser} ./")
+    # currentUser = os.getlogin()
+    # callCmd(f"chown -R {currentUser}:{currentUser} ./")
     if "run" in sys.argv:
         print("> Running QEMU")
         callCmd(f"./script/run.sh {CONFIG['outDir'][0]} {CONFIG['config'][0]}", True)
