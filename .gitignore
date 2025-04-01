@@ -1,0 +1,8 @@
+.build-cache
+.vscode
+bin
+limine
+__pycache__
+*.old
+*.txt
+*.log
