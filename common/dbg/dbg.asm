@@ -30,26 +30,25 @@ dbgPrintf:
     mov [frameBuffer+88], r13
     mov [frameBuffer+96], r14
     mov [frameBuffer+104], r15
-    sub rsp, 80
-    mov QWORD [rsp+40], rsi
+    sub rsp, 88
     mov QWORD [rsp+48], rdx
-    mov QWORD [rsp+56], rcx
-    mov QWORD [rsp+64], r8
-    mov QWORD [rsp+72], r9
     lea rdx, [rsp+32]
+    lea rax, [rsp+96]
+    mov QWORD [rsp+56], rcx
     lea rcx, [rsp+8]
-    mov esi, 8192
-    mov DWORD [rsp+8], 8
+    mov QWORD [rsp+40], rsi
     mov QWORD [rsp+24], rdx
-    lea rax, [rsp+80]
+    mov esi, 8192
     mov rdx, rdi
     mov rdi, buffer
-    mov DWORD [rsp+12], 48
+    mov QWORD [rsp+64], r8
+    mov QWORD [rsp+72], r9
+    mov DWORD [rsp+8], 8
     mov QWORD [rsp+16], rax
     call stbsp_vsnprintf
     mov rdi, buffer
     call dbgPuts
-    add rsp, 80
+    add rsp, 88
     mov rax, [frameBuffer]
     mov rbx, [frameBuffer+8]
     mov rcx, [frameBuffer+16]

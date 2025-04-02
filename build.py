@@ -84,14 +84,14 @@ if OLD_CONFIG != CONFIG:
     force_rebuild = True
     print("Configuration changed, rebuilding...")
 CONFIG["CFLAGS"] = ['-c', '-nodefaultlibs', '-nostdlib', '-D_LIBCPP_HAS_NO_THREADS', '-I /usr/lib/gcc/x86_64-pc-linux-gnu/11.4.0/include/c++', '-I /usr/lib/gcc/x86_64-pc-linux-gnu/11.4.0/include/c++/x86_64-pc-linux-gnu', '-I /usr/lib/gcc/x86_64-pc-linux-gnu/11.4.0/include/c++/backward', '-I /usr/lib/gcc/x86_64-pc-linux-gnu/11.4.0/include', '-I /usr/local/include', '-I /usr/lib/gcc/x86_64-pc-linux-gnu/11.4.0/include-fixed', '-I /usr/include']
-CONFIG["CFLAGS"] += ['-ffreestanding', '-finline-functions', '-fstrict-aliasing', '-fno-common', '-fno-asynchronous-unwind-tables', '-fno-delete-null-pointer-checks', '-fno-stack-protector', '-ffast-math', '-funroll-loops']
-CONFIG["CFLAGS"] += ['-fno-builtin', '-fomit-frame-pointer', '-fno-PIE', '-fno-pie', '-fno-PIC', '-fno-pic', '-fno-lto', '-fno-unwind-tables']
-CONFIG["CFLAGS"] += ['-mno-red-zone', '-march=native', '-mtune=native', '-mcmodel=kernel', '-mno-tls-direct-seg-refs']
+CONFIG["CFLAGS"] += ['-ffreestanding', '-finline-functions', '-fstrict-aliasing', '-fcommon', '-fasynchronous-unwind-tables', '-fno-delete-null-pointer-checks', '-fno-stack-protector', '-ffast-math', '-funroll-loops']
+CONFIG["CFLAGS"] += ['-fno-builtin', '-fomit-frame-pointer', '-fno-PIE', '-fno-pie', '-fno-PIC', '-fno-pic', '-flto', '-funwind-tables', '-ftls-model=global-dynamic']
+CONFIG["CFLAGS"] += ['-mno-red-zone', '-march=x86-64', '-mtune=k8', '-mcmodel=kernel', '-mno-tls-direct-seg-refs']
 CONFIG["CFLAGS"] += ['-Werror', '-Wall', '-Wextra', '-Wno-unused-parameter', '-Wno-unused-variable', '-Wno-aggressive-loop-optimizations', '-Wno-unused-function', '-Wno-cast-align', '-Wpointer-arith', '-Wshadow']
 CONFIG["CFLAGS"] += ['-mno-sse3', '-mno-ssse3', '-mno-sse4', '-mno-bmi', '-mno-bmi2', '-mno-movbe', '-mno-avx', '-mno-avx2', '-mno-cx16', '-mno-avx512f']
-CONFIG["CXXFLAGS"] = ['-fno-exceptions', '-fno-rtti', '-Wno-write-strings', '-Wno-cast-qual']
+CONFIG["CXXFLAGS"] = ['-fexceptions', '-frtti', '-Wno-write-strings', '-Wno-cast-qual']
 CONFIG["ASFLAGS"] = ['-felf64']
-CONFIG["LDFLAGS"] = ['-nostdlib', '-nodefaultlibs', '-Wl,--gc-sections', '-Wl,--build-id=none', '-Wl,-no-pie', '-fno-PIE', '-fno-pie', '-fno-PIC', '-fno-pic', '-fno-lto']
+CONFIG["LDFLAGS"] = ['-nostdlib', '-nodefaultlibs', '-Wl,--gc-sections', '-Wl,--build-id=none', '-Wl,-no-pie', '-fno-PIE', '-fno-pie', '-fno-PIC', '-fno-pic', '-flto']
 CONFIG["INCPATHS"] = ['-Iinclude']
 if "imageSize" not in CONFIG:
     CONFIG["imageSize"] = '128m'
@@ -100,7 +100,7 @@ if "debug" in CONFIG.get("config"):
     CONFIG["CFLAGS"] += ["-O0"]
     CONFIG["CFLAGS"] += ["-DDEBUG"]
 else:
-    CONFIG["CFLAGS"] += ["-O3"]
+    CONFIG["CFLAGS"] += ["-O2"]
     CONFIG["CFLAGS"] += ["-DNDEBUG"]
 if "x64" in CONFIG.get("arch"):
     CONFIG["CFLAGS"] += ["-m64"]
@@ -111,7 +111,7 @@ if "yes" in CONFIG.get("analyzer"):
 if "debug" in CONFIG.get("config"):
     CONFIG["LDFLAGS"] += ["-O0"]
 else:
-    CONFIG["LDFLAGS"] += ["-O3"]
+    CONFIG["LDFLAGS"] += ["-O2"]
 
 if "gcc" in CONFIG.get("compiler"):
     CONFIG["CFLAGS"] += ['-finline-functions-called-once', '-finline-limit=1000', '-fpeel-loops', '-funswitch-loops', '-fprefetch-loop-arrays', '-fmax-errors=1']
@@ -139,8 +139,6 @@ def getExtension(file):
 
 def buildC(file):
     compiler = CONFIG.get("compiler")[0]
-    # if compiler == "gcc":
-        # compiler += ""
     options = CONFIG["CFLAGS"].copy()
     options.append("-std=c11")
     command = compiler + " " + file
@@ -153,7 +151,7 @@ def buildC(file):
 def buildCXX(file):
     compiler = CONFIG.get("compiler")[0]
     if compiler == "gcc":
-        compiler = "g++"
+        compiler += "g++"
     options = CONFIG["CFLAGS"].copy()
     options += CONFIG["CXXFLAGS"].copy()
     options.append("-std=c++23")
@@ -234,7 +232,7 @@ def buildKernel(kernel_dir: str):
 
 def linkDir(kernel_dir, linker_file, static_lib_files=[]):
     files = glob.glob(kernel_dir+'/**', recursive=True)
-    command = "g++"
+    command = "gcc"
     options = CONFIG["LDFLAGS"]
     for option in options:
         command += " " + option

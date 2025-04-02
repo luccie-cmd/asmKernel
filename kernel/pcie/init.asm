@@ -109,11 +109,10 @@ loopBus:
     mov rcx, r9
     mov r8, r10
     mov r9, 0
-    sub rsp, 16
     push 0
     mov rdi, str5
     call dbgPrintf
-    add rsp, 16
+    add rsp, 8 ; Remove
     ; Do something
     pop r9
     pop r8
@@ -134,7 +133,7 @@ loopBus:
 .conditionBus:
     pop rcx
     cmp r8, rcx
-    jl .loopBus
+    jle .loopBus
     pop rcx
     pop rdx
     pop rsi
@@ -188,4 +187,4 @@ str1: db "MCFG table was not found, PCI will be used instead", 0x0a, 0
 str2: db "%llu MCFG entries present", 0x0a, 0
 str3: db "Invalid MCFG detected", 0x0a, 0
 str4: db "Initializing PCI/PCIe segment %04x (0x%02x-0x%02x)", 0x0a, 0 
-str5: db "PCI: 0x%04u:%02u:%02u.%01u (0x%04x:0x%04x)", 0x0a, 0
+str5: db "PCI: 0x%04.4u:%02.2u:%02.2u.%01.1u (0x%04.4x:0x%04.4x)", 0x0a, 0
