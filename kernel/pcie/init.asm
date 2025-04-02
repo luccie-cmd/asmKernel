@@ -6,6 +6,8 @@ extern usePciOld
 extern abort
 extern pcieSegmentBases
 extern pcieSegmentCount
+extern PCIreadConfigWord
+extern vmmMakeVirtual
 section .text
 pcieInit:
     push rdi
@@ -37,6 +39,11 @@ pcieInit:
     xor rcx, rcx
     xor r8, r8
     mov rsi, [rax]
+    push rdi
+    mov rdi, rsi
+    call vmmMakeVirtual
+    pop rdi
+    mov rsi, rax
     mov dx, WORD [rax+8]
     mov cl, BYTE [rax+10]
     mov r8b, BYTE [rax+11]
@@ -75,6 +82,20 @@ pcieInit:
     pop rdi
     ret
 
+getVendorID:
+    push r8
+    mov r8, 0
+    call PCIreadConfigWord
+    pop r8
+    ret
+
+getDeviceID:
+    push r8
+    mov r8, 2
+    call PCIreadConfigWord
+    pop r8
+    ret
+
 ; rdi, segment
 ; rsi, begin
 ; rdx, end
@@ -108,12 +129,41 @@ loopBus:
     mov rdx, r8
     mov rcx, r9
     mov r8, r10
-    mov r9, 0
-    push 0
+    push rdi
+    push rsi
+    push rdx
+    push rcx
+    mov rdi, rsi
+    mov rsi, rdx
+    mov rdx, rcx
+    mov rcx, r10
+    call getVendorID
+    pop rcx
+    pop rdx
+    pop rsi
+    pop rdi
+    cmp ax, 0xFFFF
+    je .endLoopFunc
+    mov r9, rax
+    push rdi
+    push rsi
+    push rdx
+    push rcx
+    mov rdi, rsi
+    mov rsi, rdx
+    mov rdx, rcx
+    mov rcx, r10
+    call getDeviceID
+    pop rcx
+    pop rdx
+    pop rsi
+    pop rdi
+    push rax
     mov rdi, str5
     call dbgPrintf
-    add rsp, 8 ; Remove
+    add rsp, 8 ; Remove the stack variable
     ; Do something
+.endLoopFunc:
     pop r9
     pop r8
     pop rcx
