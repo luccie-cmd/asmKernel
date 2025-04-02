@@ -28,4 +28,4 @@ str0: db "Initialized early HAL", 0x0a, 0
 str1: db "Initialized memory managers", 0x0a, 0
 str2: db "Initialized ACPI subsystem", 0x0a, 0
 str3: db "Initialized PCIe", 0x0a, 0
-str4: db "TODO: PCIE, APIC, IOAPIC, IRQS, DRIVERS, HPET, SYSCALL, VFS, SCHED", 0x0a, 0
+str4: db "TODO: APIC, IOAPIC, IRQS, DRIVERS, HPET, SYSCALL, VFS, SCHED", 0x0a, 0
