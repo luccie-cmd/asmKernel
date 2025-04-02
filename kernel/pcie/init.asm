@@ -7,6 +7,7 @@ extern abort
 extern pcieSegmentBases
 extern pcieSegmentCount
 extern PCIreadConfigWord
+extern PCIreadConfigByte
 extern vmmMakeVirtual
 section .text
 pcieInit:
@@ -159,9 +160,27 @@ loopBus:
     pop rsi
     pop rdi
     push rax
+    mov r13, rax
     mov rdi, str5
     call dbgPrintf
     add rsp, 8 ; Remove the stack variable
+    mov r11, r8
+    mov r12, r9
+    mov r8, rsi
+    mov r9, rdx
+    mov r10, rcx
+    push r8
+    mov rdi, r8
+    mov rsi, r9
+    mov rdx, r10
+    mov rcx, r11
+    mov r8, 0x0A
+    call PCIreadConfigByte
+    mov r15, rax
+    inc r8
+    call PCIreadConfigByte
+    mov r14, rax
+    pop r8
     ; Do something
 .endLoopFunc:
     pop r9

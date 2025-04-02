@@ -1,3 +1,4 @@
+global PCIreadConfigByte
 global PCIreadConfigWord
 global PCIreadConfig
 extern usePciOld
@@ -5,11 +6,11 @@ extern dbgPrintf
 extern pcieSegmentBases
 extern abort
 section .text
-; rdi: segment
-; rsi: bus
-; rdx: device
-; rcx: function
-; r8: offset
+PCIreadConfigByte:
+    call PCIreadConfig
+    movzx rax, al
+    ret
+
 PCIreadConfigWord:
     call PCIreadConfig
     movzx rax, ax
