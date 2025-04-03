@@ -11,5 +11,5 @@ qemu-system-x86_64 \
     -device nvme,drive=nvme1,serial=deadbeef \
     -cpu qemu64 \
     -M q35 \
-    -enable-kvm
+    # -enable-kvm
 fi

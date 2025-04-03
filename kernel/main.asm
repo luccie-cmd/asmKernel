@@ -4,6 +4,7 @@ extern halEarlyInit
 extern mmuInit
 extern acpiInit
 extern pcieInit
+extern lapicInit
 extern dbgPuts
 section .text
 KernelMain:
@@ -19,7 +20,10 @@ KernelMain:
     call pcieInit
     mov rdi, str3
     call dbgPuts
+    call lapicInit
     mov rdi, str4
+    call dbgPuts
+    mov rdi, str5
     call dbgPuts
     call abort
 
@@ -28,4 +32,5 @@ str0: db "Initialized early HAL", 0x0a, 0
 str1: db "Initialized memory managers", 0x0a, 0
 str2: db "Initialized ACPI subsystem", 0x0a, 0
 str3: db "Initialized PCIe", 0x0a, 0
-str4: db "TODO: APIC, IOAPIC, IRQS, DRIVERS, HPET, SYSCALL, VFS, SCHED", 0x0a, 0
+str4: db "Initialized LAPIC", 0x0a, 0
+str5: db "TODO: APIC, IOAPIC, IRQS, DRIVERS, HPET, SYSCALL, VFS, SCHED", 0x0a, 0
