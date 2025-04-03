@@ -66,6 +66,8 @@ acpiInit:
     sub rsi, 36
     shr rsi, 3
     mov [ACPInumEntries], rsi
+    mov rdi, str7
+    call dbgPrintf
     call initFADT
     pop rsi
     pop rdi
@@ -83,6 +85,7 @@ str3: db "ACPI mode already enabled. SMI command port == 0", 0x0a, 0
 str4: db "ACPI mode already enabled. table->AcpiEnable == table->AcpiDisable == 0", 0x0a, 0
 str5: db "ACPI mode already enabled. (table->PM1aControlBlock & 1) == 1", 0x0a, 0
 str6: db "Enabling ACPI mode", 0x0a, 0
+str7: db "Found %llu ACPI tables", 0x0a, 0
 
 section .limine_requests
 align 16
