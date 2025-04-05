@@ -85,11 +85,11 @@ if OLD_CONFIG != CONFIG:
     print("Configuration changed, rebuilding...")
 CONFIG["CFLAGS"] = ['-c', '-nodefaultlibs', '-nostdlib', '-D_LIBCPP_HAS_NO_THREADS', '-I /usr/lib/gcc/x86_64-pc-linux-gnu/11.4.0/include/c++', '-I /usr/lib/gcc/x86_64-pc-linux-gnu/11.4.0/include/c++/x86_64-pc-linux-gnu', '-I /usr/lib/gcc/x86_64-pc-linux-gnu/11.4.0/include/c++/backward', '-I /usr/lib/gcc/x86_64-pc-linux-gnu/11.4.0/include', '-I /usr/local/include', '-I /usr/lib/gcc/x86_64-pc-linux-gnu/11.4.0/include-fixed', '-I /usr/include']
 CONFIG["CFLAGS"] += ['-ffreestanding', '-finline-functions', '-fstrict-aliasing', '-fcommon', '-fasynchronous-unwind-tables', '-fno-delete-null-pointer-checks', '-fno-stack-protector', '-ffast-math', '-funroll-loops']
-CONFIG["CFLAGS"] += ['-fno-builtin', '-fomit-frame-pointer', '-fno-PIE', '-fno-pie', '-fno-PIC', '-fno-pic', '-flto', '-funwind-tables', '-ftls-model=global-dynamic']
+CONFIG["CFLAGS"] += ['-fbuiltin', '-fomit-frame-pointer', '-fPIE', '-fno-PIC', '-flto', '-funwind-tables', '-ftls-model=global-dynamic']
 CONFIG["CFLAGS"] += ['-mno-red-zone', '-march=x86-64', '-mtune=k8', '-mcmodel=kernel', '-mno-tls-direct-seg-refs']
 CONFIG["CFLAGS"] += ['-Werror', '-Wall', '-Wextra', '-Wno-unused-parameter', '-Wno-unused-variable', '-Wno-aggressive-loop-optimizations', '-Wno-unused-function', '-Wno-cast-align', '-Wpointer-arith', '-Wshadow']
 CONFIG["CFLAGS"] += ['-mno-sse3', '-mno-ssse3', '-mno-sse4', '-mno-bmi', '-mno-bmi2', '-mno-movbe', '-mno-avx', '-mno-avx2', '-mno-cx16', '-mno-avx512f']
-CONFIG["CXXFLAGS"] = ['-fexceptions', '-frtti', '-Wno-write-strings', '-Wno-cast-qual']
+CONFIG["CXXFLAGS"] = ['-fno-exceptions', '-fno-rtti', '-Wno-write-strings', '-Wno-cast-qual']
 CONFIG["ASFLAGS"] = ['-felf64']
 CONFIG["LDFLAGS"] = ['-nostdlib', '-nodefaultlibs', '-Wl,--gc-sections', '-Wl,--build-id=none', '-Wl,-no-pie', '-fno-PIE', '-fno-pie', '-fno-PIC', '-fno-pic', '-flto']
 CONFIG["INCPATHS"] = ['-Iinclude']

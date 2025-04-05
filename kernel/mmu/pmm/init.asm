@@ -10,6 +10,7 @@ mmuInitPaging:
     push rdi
     push rsi
     push rcx
+    push rdx
     mov rdi, [limine_memmap_request.response]
     test rdi, rdi
     je .noResponse
@@ -49,6 +50,7 @@ mmuInitPaging:
 .condition1:
     cmp rdx, rdi
     jl .loop1
+    pop rdx
     pop rcx
     pop rsi
     pop rdi

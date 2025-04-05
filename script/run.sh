@@ -10,6 +10,7 @@ qemu-system-x86_64 \
     -drive file="$1/image.img",if=none,id=nvme1,format=raw \
     -device nvme,drive=nvme1,serial=deadbeef \
     -cpu qemu64 \
+    -smp 6 \
     -M q35 \
-    # -enable-kvm
+    -enable-kvm
 fi

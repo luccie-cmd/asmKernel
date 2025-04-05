@@ -76,8 +76,9 @@ isrCommon:
     pop rdx
     pop rcx
     pop rbx
-
-    add rsp, 24
+	pop rax
+	
+    add rsp, 16
     iretq
 
 isrInitGates:
