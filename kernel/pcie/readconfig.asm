@@ -30,6 +30,7 @@ PCIreadConfig:
     call dbgPrintf
     call abort
 .new:
+    prefetchnta [pcieSegmentBases]
     push r15
     shl rdi, 4
     lea r15, pcieSegmentBases
