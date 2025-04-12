@@ -24,10 +24,10 @@ pmmAllocatePages:
     cmp rsi, 0
     mov rdi, [rdi+8]
     je .setHeadNoSplit
-    mov QWORD [rsi+8], rdi
+    mov [rsi+8], rdi
     jmp .afterSplit
 .setHeadNoSplit:
-    mov QWORD [pmmHead], rdi
+    mov [pmmHead], rdi
     jmp .afterSplit
 .split:
     mov rcx, rax
@@ -41,10 +41,10 @@ pmmAllocatePages:
     cmp rsi, 0
     mov rdi, [rdi+8]
     je .setHeadNoSplit
-    mov QWORD [rsi+8], rcx
+    mov [rsi+8], rcx
     jmp .afterSplit
 .setHeadSplit:
-    mov QWORD [pmmHead], rdi
+    mov [pmmHead], rdi
 .afterSplit:
     sub rax, [hhdmOffset]
     pop rcx

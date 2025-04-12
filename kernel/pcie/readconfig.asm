@@ -48,7 +48,7 @@ PCIreadConfig:
     add r15, rsi
     pop rsi
     add r15, r8
-    mov rax, QWORD [r15]
+    mov rax, [r15]
     pop r15
     ret
 

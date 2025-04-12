@@ -52,15 +52,15 @@ pcieInit:
     mov rsi, rax
     pop rdi
     pop rax
-    mov dx, WORD [rax+8]
-    mov cl, BYTE [rax+10]
-    mov r8b, BYTE [rax+11]
+    mov dx, [rax+8]
+    mov cl, [rax+10]
+    mov r8b, [rax+11]
     lea rdi, pcieSegmentBases
     shl rdx, 4
     add rdi, rdx
-    mov QWORD [rdi], rsi
-    mov BYTE [rdi+8], cl
-    mov BYTE [rdi+9], r8b
+    mov [rdi], rsi
+    mov [rdi+8], cl
+    mov [rdi+9], r8b
     inc BYTE [pcieSegmentCount]
     pop rax
     pop rcx
@@ -196,7 +196,7 @@ loopBus:
     call PCIreadConfigByte
     mov r14, rax
     pop r8
-    mov rsi, QWORD [pciDevicesCount]
+    mov rsi, [pciDevicesCount]
     test rsi, 0xFF
     jnz .afterAllocPciDevicesList
     mov rdi, 1
@@ -205,25 +205,25 @@ loopBus:
     shl rsi, 4
     mov rdx, rsi
     mov rdi, rax
-    mov rsi, QWORD [pciDevices]
+    mov rsi, [pciDevices]
     call memcpy
     mov rdi, [pciDevices]
     call pmmFreePages
     pop rax
-    mov QWORD [pciDevices], rax
+    mov [pciDevices], rax
 .afterAllocPciDevicesList:
-    mov rsi, QWORD [pciDevicesCount]
+    mov rsi, [pciDevicesCount]
     shl rsi, 4
     mov rdi, [pciDevices]
     add rdi, rsi
-    mov WORD [rdi], r8w
-    mov BYTE [rdi+2], r9b
-    mov BYTE [rdi+3], r10b
-    mov BYTE [rdi+4], r11b
-    mov WORD [rdi+5], r12w
-    mov WORD [rdi+7], r13w
-    mov BYTE [rdi+9], r14b
-    mov BYTE [rdi+10], r15b
+    mov [rdi], r8w
+    mov [rdi+2], r9b
+    mov [rdi+3], r10b
+    mov [rdi+4], r11b
+    mov [rdi+5], r12w
+    mov [rdi+7], r13w
+    mov [rdi+9], r14b
+    mov [rdi+10], r15b
     inc QWORD [pciDevicesCount]
 .endLoopFunc:
     pop r9

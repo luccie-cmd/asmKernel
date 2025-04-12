@@ -6,7 +6,7 @@ parseMadt:
     mov rdi, str0
     call getACPItableBySign
     mov rdi, rax
-    mov r8d, DWORD [rdi+4]
+    mov r8d, [rdi+4]
     sub r8, 44
     add rdi, 44
     xor rcx, rcx

@@ -10,21 +10,21 @@ halTssInit:
     mov rsi, TSS
     sub rdi, rsi
     dec rdi
-    mov WORD [rax+0], di
-    mov WORD [rax+2], si
+    mov [rax+0], di
+    mov [rax+2], si
     shr rsi, 16
-    mov BYTE [rax+4], sil
+    mov [rax+4], sil
     mov BYTE [rax+5], 0x89
     mov BYTE [rax+6], 0
     shr rsi, 8
-    mov WORD [rax+7], si
+    mov [rax+7], si
     shr rsi, 8
-    mov DWORD [rax+8], esi
+    mov [rax+8], esi
     mov DWORD [rax+12], 0
     mov rax, [tssEntry]
-    mov QWORD [GDT+0x28], rax
+    mov [GDT+0x28], rax
     mov rax, [tssEntry+8]
-    mov QWORD [GDT+0x30], rax
+    mov [GDT+0x30], rax
     pop rsi
     pop rdi
     ret

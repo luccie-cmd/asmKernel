@@ -55,19 +55,19 @@ registerHandler:
     shl rdi, 4
     add r8, rdi
     shr rdi, 4
-    mov WORD [r8], si
+    mov [r8], si
     mov WORD [r8+2], 0x8
     mov BYTE [r8+4], 0
     movzx rdi, BYTE [r8+5]
     shl rdx, IDT_GATE_TYPE_SHIFT
     or rdi, rdx
-    mov BYTE [r8+5], dil
+    mov [r8+5], dil
     push rsi
     shr rsi, 16
-    mov WORD [r8+6], si
+    mov [r8+6], si
     pop rsi
     shr rsi, 32
-    mov DWORD [r8+8], esi
+    mov [r8+8], esi
     pop rsi
     pop rdi
     ret

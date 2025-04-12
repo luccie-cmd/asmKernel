@@ -17,7 +17,7 @@ initFADT:
     movzx rdi, BYTE [rax+52]
     cmp dil, [rax+53]
     jz .enableDisable
-    mov edi, DWORD [rax+64]
+    mov edi, [rax+64]
     and rdi, 1
     jnz .pm1aCrtl
     mov rdi, str6
@@ -61,7 +61,7 @@ acpiInit:
     mov rdi, [rdi+0x18]
     call vmmMakeVirtual
     mov rdi, rax
-    mov QWORD [xsdtAddr], rdi
+    mov [xsdtAddr], rdi
     movsx rsi, DWORD [rdi+0x04]
     sub rsi, 36
     shr rsi, 3

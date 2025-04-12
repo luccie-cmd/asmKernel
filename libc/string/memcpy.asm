@@ -7,8 +7,8 @@ memcpy:
     xor rcx, rcx
     jmp .condition
 .loop:
-    mov dil, BYTE [rsi+rcx]
-    mov BYTE [rax+rcx], dil
+    mov dil, [rsi+rcx]
+    mov [rax+rcx], dil
     inc rcx
 .condition:
     cmp rcx, rdx
